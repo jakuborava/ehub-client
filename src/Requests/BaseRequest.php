@@ -1,0 +1,95 @@
+<?php
+
+namespace JakubOrava\EhubClient\Requests;
+
+abstract class BaseRequest
+{
+    protected int|null $page = null;
+    protected int|null $perPage = null;
+    protected string|null $sort = null;
+    /**
+     * @var array<int, string>|null
+     */
+    protected array|null $fields = null;
+
+    /**
+     * @var array<string, mixed>
+     */
+    protected array $customParams = [];
+
+    public function page(int $page): static
+    {
+        $this->page = $page;
+
+        return $this;
+    }
+
+    public function perPage(int $perPage): static
+    {
+        $this->perPage = $perPage;
+
+        return $this;
+    }
+
+    public function sort(string $sort): static
+    {
+        $this->sort = $sort;
+
+        return $this;
+    }
+
+    /**
+     * @param array<int, string> $fields
+     */
+    public function fields(array $fields): static
+    {
+        $this->fields = $fields;
+
+        return $this;
+    }
+
+    /**
+     * @param mixed $value
+     */
+    public function addParam(string $key, $value): static
+    {
+        $this->customParams[$key] = $value;
+
+        return $this;
+    }
+
+    /**
+     * Build the query parameters array
+     *
+     * @return array<string, mixed>
+     */
+    public function toArray(): array
+    {
+        $params = [];
+
+        if ($this->page !== null) {
+            $params['page'] = $this->page;
+        }
+
+        if ($this->perPage !== null) {
+            $params['perPage'] = $this->perPage;
+        }
+
+        if ($this->sort !== null) {
+            $params['sort'] = $this->sort;
+        }
+
+        if ($this->fields !== null && count($this->fields) > 0) {
+            $params['fields'] = implode(',', $this->fields);
+        }
+
+        // Merge custom parameters
+        foreach ($this->customParams as $key => $value) {
+            if ($value !== null) {
+                $params[$key] = $value;
+            }
+        }
+
+        return $params;
+    }
+}
