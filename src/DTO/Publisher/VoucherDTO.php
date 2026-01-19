@@ -8,6 +8,7 @@ use JakubOrava\EhubClient\DTO\ArrayHelpers;
 readonly class VoucherDTO
 {
     use ArrayHelpers;
+
     public function __construct(
         public int $id,
         public string $campaignId,

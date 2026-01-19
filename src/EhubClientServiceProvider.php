@@ -4,7 +4,6 @@ namespace JakubOrava\EhubClient;
 
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use JakubOrava\EhubClient\Commands\EhubClientCommand;
 
 class EhubClientServiceProvider extends PackageServiceProvider
 {

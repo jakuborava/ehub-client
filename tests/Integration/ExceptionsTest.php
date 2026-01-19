@@ -8,7 +8,7 @@ use JakubOrava\EhubClient\Exceptions\UnexpectedResponseException;
 use JakubOrava\EhubClient\Exceptions\ValidationException;
 
 beforeEach(function () {
-    $this->client = new EhubClient();
+    $this->client = new EhubClient;
     $this->publisherId = 'test-publisher-id';
 });
 

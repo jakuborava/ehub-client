@@ -41,5 +41,3 @@ class PublisherEndpoints
         return new Vouchers($this->client);
     }
 }
-
-

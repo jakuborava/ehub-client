@@ -8,6 +8,7 @@ use JakubOrava\EhubClient\DTO\ArrayHelpers;
 readonly class PublisherTransactionDTO
 {
     use ArrayHelpers;
+
     public function __construct(
         public string $id,
         public string $uuid,

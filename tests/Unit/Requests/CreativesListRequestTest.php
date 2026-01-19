@@ -3,7 +3,7 @@
 use JakubOrava\EhubClient\Requests\CreativesListRequest;
 
 it('builds creative list request with all parameters', function () {
-    $request = (new CreativesListRequest())
+    $request = (new CreativesListRequest)
         ->page(1)
         ->perPage(50)
         ->id('creative-id')
@@ -26,7 +26,7 @@ it('builds creative list request with all parameters', function () {
 });
 
 it('supports method chaining', function () {
-    $request = (new CreativesListRequest())
+    $request = (new CreativesListRequest)
         ->campaignId('campaign-id')
         ->type('banner');
 

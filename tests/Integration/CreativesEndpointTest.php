@@ -5,7 +5,7 @@ use JakubOrava\EhubClient\EhubClient;
 use JakubOrava\EhubClient\Requests\CreativesListRequest;
 
 beforeEach(function () {
-    $this->client = new EhubClient();
+    $this->client = new EhubClient;
     $this->publisherId = 'test-publisher-id';
 });
 
@@ -57,7 +57,7 @@ it('sends correct query parameters with filters', function () {
         ], 200),
     ]);
 
-    $request = (new CreativesListRequest())
+    $request = (new CreativesListRequest)
         ->campaignId('campaign-id')
         ->type('link')
         ->name('DefaultLink')
@@ -69,6 +69,7 @@ it('sends correct query parameters with filters', function () {
 
     Http::assertSent(function ($request) {
         $url = $request->url();
+
         return str_contains($url, 'https://api.ehub.cz/v3/publishers/test-publisher-id/creatives') &&
             str_contains($url, 'campaignId=campaign-id') &&
             str_contains($url, 'type=link') &&

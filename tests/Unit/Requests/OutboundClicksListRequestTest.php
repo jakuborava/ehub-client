@@ -3,7 +3,7 @@
 use JakubOrava\EhubClient\Requests\OutboundClicksListRequest;
 
 it('builds outbound clicks list request with all parameters', function () {
-    $request = (new OutboundClicksListRequest())
+    $request = (new OutboundClicksListRequest)
         ->page(1)
         ->perPage(100)
         ->from('2024-01-01T00:00:00')
@@ -32,7 +32,7 @@ it('builds outbound clicks list request with all parameters', function () {
 });
 
 it('supports method chaining', function () {
-    $request = (new OutboundClicksListRequest())
+    $request = (new OutboundClicksListRequest)
         ->from('2024-01-01T00:00:00')
         ->to('2024-01-31T23:59:59');
 

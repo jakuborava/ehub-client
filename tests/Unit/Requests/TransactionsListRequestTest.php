@@ -3,7 +3,7 @@
 use JakubOrava\EhubClient\Requests\TransactionsListRequest;
 
 it('builds transaction list request with all parameters', function () {
-    $request = (new TransactionsListRequest())
+    $request = (new TransactionsListRequest)
         ->page(2)
         ->perPage(50)
         ->dateInsertedFrom('2024-01-01T00:00:00')
@@ -44,7 +44,7 @@ it('builds transaction list request with all parameters', function () {
 });
 
 it('supports method chaining', function () {
-    $request = (new TransactionsListRequest())
+    $request = (new TransactionsListRequest)
         ->status('approved')
         ->payoutStatus('paid');
 

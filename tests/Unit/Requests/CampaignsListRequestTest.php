@@ -3,7 +3,7 @@
 use JakubOrava\EhubClient\Requests\CampaignsListRequest;
 
 it('builds campaign list request with all parameters', function () {
-    $request = (new CampaignsListRequest())
+    $request = (new CampaignsListRequest)
         ->page(1)
         ->perPage(50)
         ->name('Test Campaign')
@@ -24,7 +24,7 @@ it('builds campaign list request with all parameters', function () {
 });
 
 it('converts categories array to comma-separated string', function () {
-    $request = (new CampaignsListRequest())
+    $request = (new CampaignsListRequest)
         ->categories([3, 4, 5]);
 
     $params = $request->toArray();

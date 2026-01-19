@@ -8,6 +8,7 @@ use JakubOrava\EhubClient\DTO\ArrayHelpers;
 readonly class CampaignDTO
 {
     use ArrayHelpers;
+
     /**
      * @param Collection<int, CampaignCategoryDTO> $categories
      * @param Collection<int, CommissionGroupDTO> $commissionGroups
@@ -39,38 +40,26 @@ readonly class CampaignDTO
      */
     public static function fromArray(array $data): self
     {
-        $categoriesData = self::getArray($data, 'categories');
         /** @var Collection<int, CampaignCategoryDTO> $categories */
-        $categories = (new Collection($categoriesData))
-            ->map(function (mixed $category): CampaignCategoryDTO {
-                if (!is_array($category)) {
-                    throw new \InvalidArgumentException('Expected array for category item');
-                }
-                /** @var array<string, mixed> $category */
-                return CampaignCategoryDTO::fromArray($category);
-            });
+        $categories = self::getCollection(
+            $data,
+            'categories',
+            fn(array $category): CampaignCategoryDTO => CampaignCategoryDTO::fromArray($category)
+        );
 
-        $commissionGroupsData = self::getArray($data, 'commissionGroups');
         /** @var Collection<int, CommissionGroupDTO> $commissionGroups */
-        $commissionGroups = (new Collection($commissionGroupsData))
-            ->map(function (mixed $group): CommissionGroupDTO {
-                if (!is_array($group)) {
-                    throw new \InvalidArgumentException('Expected array for commission group item');
-                }
-                /** @var array<string, mixed> $group */
-                return CommissionGroupDTO::fromArray($group);
-            });
+        $commissionGroups = self::getCollection(
+            $data,
+            'commissionGroups',
+            fn(array $group): CommissionGroupDTO => CommissionGroupDTO::fromArray($group)
+        );
 
-        $restrictionsData = self::getArray($data, 'restrictions');
         /** @var Collection<int, CampaignRestrictionDTO> $restrictions */
-        $restrictions = (new Collection($restrictionsData))
-            ->map(function (mixed $restriction): CampaignRestrictionDTO {
-                if (!is_array($restriction)) {
-                    throw new \InvalidArgumentException('Expected array for restriction item');
-                }
-                /** @var array<string, mixed> $restriction */
-                return CampaignRestrictionDTO::fromArray($restriction);
-            });
+        $restrictions = self::getCollection(
+            $data,
+            'restrictions',
+            fn(array $restriction): CampaignRestrictionDTO => CampaignRestrictionDTO::fromArray($restriction)
+        );
 
         return new self(
             id: self::getString($data, 'id'),

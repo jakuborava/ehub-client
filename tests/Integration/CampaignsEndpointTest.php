@@ -6,7 +6,7 @@ use JakubOrava\EhubClient\Exceptions\ApiErrorException;
 use JakubOrava\EhubClient\Requests\CampaignsListRequest;
 
 beforeEach(function () {
-    $this->client = new EhubClient();
+    $this->client = new EhubClient;
     $this->publisherId = 'test-publisher-id';
 });
 
@@ -77,7 +77,7 @@ it('sends correct query parameters with filters', function () {
         ], 200),
     ]);
 
-    $request = (new CampaignsListRequest())
+    $request = (new CampaignsListRequest)
         ->name('Test')
         ->categories([4, 6])
         ->status('approved');
@@ -88,6 +88,7 @@ it('sends correct query parameters with filters', function () {
 
     Http::assertSent(function ($request) {
         $url = $request->url();
+
         return str_contains($url, 'https://api.ehub.cz/v3/publishers/test-publisher-id/campaigns') &&
             str_contains($url, 'name=Test') &&
             str_contains($url, 'categories=4%2C6') &&

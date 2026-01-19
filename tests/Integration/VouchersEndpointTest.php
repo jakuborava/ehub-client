@@ -6,7 +6,7 @@ use JakubOrava\EhubClient\Exceptions\AuthenticationException;
 use JakubOrava\EhubClient\Requests\VouchersListRequest;
 
 beforeEach(function () {
-    $this->client = new EhubClient();
+    $this->client = new EhubClient;
     $this->publisherId = 'test-publisher-id';
 });
 
@@ -66,7 +66,7 @@ it('sends correct query parameters with request object', function () {
         ], 200),
     ]);
 
-    $request = (new VouchersListRequest())
+    $request = (new VouchersListRequest)
         ->page(2)
         ->perPage(100)
         ->type('voucher')
@@ -79,6 +79,7 @@ it('sends correct query parameters with request object', function () {
 
     Http::assertSent(function ($request) {
         $url = $request->url();
+
         return str_contains($url, 'https://api.ehub.cz/v3/publishers/test-publisher-id/vouchers') &&
             str_contains($url, 'apiKey=test-api-key') &&
             str_contains($url, 'page=2') &&
@@ -107,7 +108,7 @@ it('handles pagination metadata correctly', function () {
         ], 200),
     ]);
 
-    $request = (new VouchersListRequest())
+    $request = (new VouchersListRequest)
         ->page(2)
         ->perPage(50);
 

@@ -7,6 +7,7 @@ use JakubOrava\EhubClient\DTO\ArrayHelpers;
 readonly class CampaignRestrictionDTO
 {
     use ArrayHelpers;
+
     public function __construct(
         public string $name,
         public string $description,

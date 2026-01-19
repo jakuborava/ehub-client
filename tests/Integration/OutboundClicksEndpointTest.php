@@ -5,7 +5,7 @@ use JakubOrava\EhubClient\EhubClient;
 use JakubOrava\EhubClient\Requests\OutboundClicksListRequest;
 
 beforeEach(function () {
-    $this->client = new EhubClient();
+    $this->client = new EhubClient;
     $this->publisherId = 'test-publisher-id';
 });
 
@@ -65,7 +65,7 @@ it('sends correct query parameters with date filters', function () {
         ], 200),
     ]);
 
-    $request = (new OutboundClicksListRequest())
+    $request = (new OutboundClicksListRequest)
         ->from('2024-01-01T00:00:00')
         ->to('2024-01-31T23:59:59')
         ->campaignId('campaign-id')
@@ -78,6 +78,7 @@ it('sends correct query parameters with date filters', function () {
 
     Http::assertSent(function ($request) {
         $url = $request->url();
+
         return str_contains($url, 'https://api.ehub.cz/v3/publishers/test-publisher-id/outboundClicks') &&
             str_contains($url, 'from=2024-01-01T00%3A00%3A00') &&
             str_contains($url, 'to=2024-01-31T23%3A59%3A59') &&

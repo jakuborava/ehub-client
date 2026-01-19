@@ -8,6 +8,7 @@ use JakubOrava\EhubClient\DTO\ArrayHelpers;
 readonly class OutboundClickDTO
 {
     use ArrayHelpers;
+
     public function __construct(
         public string $id,
         public Carbon $dateTime,

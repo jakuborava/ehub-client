@@ -8,6 +8,7 @@ use JakubOrava\EhubClient\DTO\ArrayHelpers;
 readonly class CommissionGroupDTO
 {
     use ArrayHelpers;
+
     /**
      * @param Collection<int, CommissionDTO> $commissions
      */
@@ -23,16 +24,12 @@ readonly class CommissionGroupDTO
      */
     public static function fromArray(array $data): self
     {
-        $commissionsData = self::getArray($data, 'commissions');
         /** @var Collection<int, CommissionDTO> $commissions */
-        $commissions = (new Collection($commissionsData))
-            ->map(function (mixed $commission): CommissionDTO {
-                if (!is_array($commission)) {
-                    throw new \InvalidArgumentException('Expected array for commission item');
-                }
-                /** @var array<string, mixed> $commission */
-                return CommissionDTO::fromArray($commission);
-            });
+        $commissions = self::getCollection(
+            $data,
+            'commissions',
+            fn(array $commission): CommissionDTO => CommissionDTO::fromArray($commission)
+        );
 
         return new self(
             name: self::getString($data, 'name'),

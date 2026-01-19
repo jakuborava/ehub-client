@@ -7,6 +7,7 @@ use JakubOrava\EhubClient\DTO\ArrayHelpers;
 readonly class CampaignCategoryDTO
 {
     use ArrayHelpers;
+
     public function __construct(
         public int $code,
         public string $name,

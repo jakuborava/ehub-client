@@ -7,6 +7,7 @@ use JakubOrava\EhubClient\DTO\ArrayHelpers;
 readonly class CommissionDTO
 {
     use ArrayHelpers;
+
     public function __construct(
         public string $commissionType,
         public ?string $name,

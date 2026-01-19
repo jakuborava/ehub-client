@@ -3,7 +3,7 @@
 use JakubOrava\EhubClient\Requests\VouchersListRequest;
 
 it('builds voucher list request with all parameters', function () {
-    $request = (new VouchersListRequest())
+    $request = (new VouchersListRequest)
         ->page(2)
         ->perPage(100)
         ->type('voucher')
@@ -24,7 +24,7 @@ it('builds voucher list request with all parameters', function () {
 });
 
 it('supports method chaining', function () {
-    $request = (new VouchersListRequest())
+    $request = (new VouchersListRequest)
         ->type('action')
         ->isValid(false);
 

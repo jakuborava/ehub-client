@@ -10,7 +10,7 @@ class EhubClient
 
     public function __construct()
     {
-        $this->client = new BaseEhubClient();
+        $this->client = new BaseEhubClient;
     }
 
     public function publishers(): PublisherEndpoints
@@ -18,4 +18,3 @@ class EhubClient
         return new PublisherEndpoints($this->client);
     }
 }
-

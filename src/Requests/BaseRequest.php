@@ -4,13 +4,16 @@ namespace JakubOrava\EhubClient\Requests;
 
 abstract class BaseRequest
 {
-    protected int|null $page = null;
-    protected int|null $perPage = null;
-    protected string|null $sort = null;
+    protected ?int $page = null;
+
+    protected ?int $perPage = null;
+
+    protected ?string $sort = null;
+
     /**
      * @var array<int, string>|null
      */
-    protected array|null $fields = null;
+    protected ?array $fields = null;
 
     /**
      * @var array<string, mixed>

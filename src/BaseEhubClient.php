@@ -12,7 +12,7 @@ use JakubOrava\EhubClient\Exceptions\ValidationException;
 
 class BaseEhubClient
 {
-    private const BASE_URL = 'https://api.ehub.cz/v3';
+    private const string BASE_URL = 'https://api.ehub.cz/v3';
 
     private string $apiKey;
 
@@ -26,6 +26,7 @@ class BaseEhubClient
     /**
      * @param array<string, mixed> $queryParams
      * @return array<mixed>
+     *
      * @throws AuthenticationException
      * @throws ValidationException
      * @throws ApiErrorException
@@ -43,6 +44,7 @@ class BaseEhubClient
      * @param array<string, mixed> $data
      * @param array<string, mixed> $queryParams
      * @return array<mixed>
+     *
      * @throws AuthenticationException
      * @throws ValidationException
      * @throws ApiErrorException
@@ -60,6 +62,7 @@ class BaseEhubClient
      * @param array<string, mixed> $data
      * @param array<string, mixed> $queryParams
      * @return array<mixed>
+     *
      * @throws AuthenticationException
      * @throws ValidationException
      * @throws ApiErrorException
@@ -77,6 +80,7 @@ class BaseEhubClient
      * @param array<string, mixed> $data
      * @param array<string, mixed> $queryParams
      * @return array<mixed>
+     *
      * @throws AuthenticationException
      * @throws ValidationException
      * @throws ApiErrorException
@@ -93,6 +97,7 @@ class BaseEhubClient
     /**
      * @param array<string, mixed> $queryParams
      * @return array<mixed>
+     *
      * @throws AuthenticationException
      * @throws ValidationException
      * @throws ApiErrorException
@@ -110,7 +115,7 @@ class BaseEhubClient
     {
         $path = ltrim($path, '/');
 
-        return self::BASE_URL . "/publishers/{$userId}/{$path}";
+        return self::BASE_URL . "/publishers/$userId/$path";
     }
 
     /**
@@ -130,7 +135,7 @@ class BaseEhubClient
             'PATCH' => $client->patch($url, array_merge($data, $queryParams)),
             'PUT' => $client->put($url, array_merge($data, $queryParams)),
             'DELETE' => $client->delete($url, $queryParams),
-            default => throw new UnexpectedResponseException("Unsupported HTTP method: {$method}"),
+            default => throw new UnexpectedResponseException("Unsupported HTTP method: $method"),
         };
     }
 
@@ -143,6 +148,7 @@ class BaseEhubClient
 
     /**
      * @return array<mixed>
+     *
      * @throws AuthenticationException
      * @throws ValidationException
      * @throws ApiErrorException
@@ -158,13 +164,13 @@ class BaseEhubClient
         // Handle validation errors
         if ($response->status() === 422) {
             $message = $this->extractErrorMessage($response);
-            throw new ValidationException("Validation failed: {$message}");
+            throw new ValidationException("Validation failed: $message");
         }
 
         // Handle forbidden
         if ($response->status() === 403) {
             $message = $this->extractErrorMessage($response);
-            throw new ApiErrorException("Access forbidden: {$message}", 403);
+            throw new ApiErrorException("Access forbidden: $message", 403);
         }
 
         // Handle not found
@@ -175,7 +181,7 @@ class BaseEhubClient
         // Handle other client errors
         if ($response->clientError()) {
             $message = $this->extractErrorMessage($response);
-            throw new ApiErrorException("Client error: {$message}", $response->status());
+            throw new ApiErrorException("Client error: $message", $response->status());
         }
 
         // Handle server errors
