@@ -27,20 +27,6 @@ You can install the package via composer:
 composer require jakuborava/ehub-client
 ```
 
-Publish the config file:
-
-```bash
-php artisan vendor:publish --tag="ehub-client-config"
-```
-
-This is the contents of the published config file:
-
-```php
-return [
-    'api_key' => env('EHUB_API_KEY'),
-];
-```
-
 Add your eHub API key to your `.env` file:
 
 ```env
