@@ -2,6 +2,4 @@
 
 namespace JakubOrava\EhubClient\Exceptions;
 
-class ValidationException extends EhubClientException
-{
-}
+class ValidationException extends EhubClientException {}

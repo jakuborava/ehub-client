@@ -21,11 +21,10 @@ readonly class VoucherDTO
         public Carbon $validFrom,
         public Carbon $validTill,
         public ?bool $isValid = null,
-    ) {
-    }
+    ) {}
 
     /**
-     * @param array<string, mixed> $data
+     * @param  array<string, mixed>  $data
      */
     public static function fromArray(array $data): self
     {

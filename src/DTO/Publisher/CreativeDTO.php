@@ -15,11 +15,10 @@ readonly class CreativeDTO
         public string $name,
         public ?string $destinationUrl,
         public ?string $imageUrl = null,
-    ) {
-    }
+    ) {}
 
     /**
-     * @param array<string, mixed> $data
+     * @param  array<string, mixed>  $data
      */
     public static function fromArray(array $data): self
     {

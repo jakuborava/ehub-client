@@ -2,6 +2,4 @@
 
 namespace JakubOrava\EhubClient\Exceptions;
 
-class AuthenticationException extends EhubClientException
-{
-}
+class AuthenticationException extends EhubClientException {}

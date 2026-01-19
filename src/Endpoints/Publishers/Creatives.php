@@ -15,8 +15,7 @@ class Creatives
 {
     public function __construct(
         private readonly BaseEhubClient $client
-    ) {
-    }
+    ) {}
 
     /**
      * @return PaginatedResponse<CreativeDTO>
@@ -38,7 +37,7 @@ class Creatives
             response: $response,
             queryParams: $queryParams,
             itemsKey: 'creatives',
-            mapper: fn(array $creative): CreativeDTO => CreativeDTO::fromArray($creative)
+            mapper: fn (array $creative): CreativeDTO => CreativeDTO::fromArray($creative)
         );
     }
 }

@@ -36,11 +36,10 @@ readonly class PublisherTransactionDTO
         public ?Carbon $resolutionDateTime,
         public string $status,
         public string $payoutStatus,
-    ) {
-    }
+    ) {}
 
     /**
-     * @param array<string, mixed> $data
+     * @param  array<string, mixed>  $data
      */
     public static function fromArray(array $data): self
     {

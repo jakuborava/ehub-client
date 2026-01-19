@@ -42,7 +42,7 @@ abstract class BaseRequest
     }
 
     /**
-     * @param array<int, string> $fields
+     * @param  array<int, string>  $fields
      */
     public function fields(array $fields): static
     {
@@ -52,7 +52,7 @@ abstract class BaseRequest
     }
 
     /**
-     * @param mixed $value
+     * @param  mixed  $value
      */
     public function addParam(string $key, $value): static
     {

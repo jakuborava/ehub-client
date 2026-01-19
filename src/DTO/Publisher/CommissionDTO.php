@@ -13,11 +13,10 @@ readonly class CommissionDTO
         public ?string $name,
         public string $valueType,
         public float $value,
-    ) {
-    }
+    ) {}
 
     /**
-     * @param array<string, mixed> $data
+     * @param  array<string, mixed>  $data
      */
     public static function fromArray(array $data): self
     {

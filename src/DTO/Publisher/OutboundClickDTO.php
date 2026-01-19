@@ -20,11 +20,10 @@ readonly class OutboundClickDTO
         public ?string $linkId,
         public ?float $commission,
         public ?bool $processed,
-    ) {
-    }
+    ) {}
 
     /**
-     * @param array<string, mixed> $data
+     * @param  array<string, mixed>  $data
      */
     public static function fromArray(array $data): self
     {

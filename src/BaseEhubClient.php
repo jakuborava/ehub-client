@@ -24,7 +24,7 @@ class BaseEhubClient
     }
 
     /**
-     * @param array<string, mixed> $queryParams
+     * @param  array<string, mixed>  $queryParams
      * @return array<mixed>
      *
      * @throws AuthenticationException
@@ -41,8 +41,8 @@ class BaseEhubClient
     }
 
     /**
-     * @param array<string, mixed> $data
-     * @param array<string, mixed> $queryParams
+     * @param  array<string, mixed>  $data
+     * @param  array<string, mixed>  $queryParams
      * @return array<mixed>
      *
      * @throws AuthenticationException
@@ -59,8 +59,8 @@ class BaseEhubClient
     }
 
     /**
-     * @param array<string, mixed> $data
-     * @param array<string, mixed> $queryParams
+     * @param  array<string, mixed>  $data
+     * @param  array<string, mixed>  $queryParams
      * @return array<mixed>
      *
      * @throws AuthenticationException
@@ -77,8 +77,8 @@ class BaseEhubClient
     }
 
     /**
-     * @param array<string, mixed> $data
-     * @param array<string, mixed> $queryParams
+     * @param  array<string, mixed>  $data
+     * @param  array<string, mixed>  $queryParams
      * @return array<mixed>
      *
      * @throws AuthenticationException
@@ -95,7 +95,7 @@ class BaseEhubClient
     }
 
     /**
-     * @param array<string, mixed> $queryParams
+     * @param  array<string, mixed>  $queryParams
      * @return array<mixed>
      *
      * @throws AuthenticationException
@@ -115,12 +115,12 @@ class BaseEhubClient
     {
         $path = ltrim($path, '/');
 
-        return self::BASE_URL . "/publishers/$userId/$path";
+        return self::BASE_URL."/publishers/$userId/$path";
     }
 
     /**
-     * @param array<string, mixed> $queryParams
-     * @param array<string, mixed> $data
+     * @param  array<string, mixed>  $queryParams
+     * @param  array<string, mixed>  $data
      */
     private function makeRequest(string $method, string $url, array $queryParams = [], array $data = []): Response
     {
@@ -190,13 +190,13 @@ class BaseEhubClient
         }
 
         // Ensure successful response
-        if (!$response->successful()) {
+        if (! $response->successful()) {
             throw new ApiErrorException("Request failed with status {$response->status()}", $response->status());
         }
 
         $data = $response->json();
 
-        if (!is_array($data)) {
+        if (! is_array($data)) {
             throw new UnexpectedResponseException('Response is not an array');
         }
 
