@@ -10,7 +10,7 @@ class CampaignsListRequest extends BaseRequest
     }
 
     /**
-     * @param array<int, int> $categories
+     * @param  array<int, int>  $categories
      */
     public function categories(array $categories): self
     {

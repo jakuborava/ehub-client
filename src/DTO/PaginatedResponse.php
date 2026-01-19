@@ -10,15 +10,14 @@ use Illuminate\Support\Collection;
 readonly class PaginatedResponse
 {
     /**
-     * @param Collection<int, T> $items
+     * @param  Collection<int, T>  $items
      */
     public function __construct(
         public Collection $items,
         public int $totalItems,
         public ?int $currentPage = null,
         public ?int $perPage = null,
-    ) {
-    }
+    ) {}
 
     public function getTotalPages(): ?int
     {
@@ -26,7 +25,7 @@ readonly class PaginatedResponse
             return null;
         }
 
-        return (int)ceil($this->totalItems / $this->perPage);
+        return (int) ceil($this->totalItems / $this->perPage);
     }
 
     public function hasMorePages(): bool
@@ -43,9 +42,9 @@ readonly class PaginatedResponse
      *
      * @template TItem
      *
-     * @param array<string, mixed> $response
-     * @param array<string, mixed> $queryParams
-     * @param callable(array<string, mixed>): TItem $mapper
+     * @param  array<string, mixed>  $response
+     * @param  array<string, mixed>  $queryParams
+     * @param  callable(array<string, mixed>): TItem  $mapper
      * @return self<TItem>
      */
     public static function fromResponse(array $response, array $queryParams, string $itemsKey, callable $mapper): self
@@ -56,7 +55,7 @@ readonly class PaginatedResponse
         /** @var Collection<int, TItem> $items */
         $items = new Collection($itemsData)
             ->map(function (mixed $item) use ($mapper): mixed {
-                if (!is_array($item)) {
+                if (! is_array($item)) {
                     throw new \InvalidArgumentException('Expected array for item in response');
                 }
 
@@ -65,7 +64,7 @@ readonly class PaginatedResponse
             });
 
         $totalItems = $response['totalItems'] ?? 0;
-        if (!is_int($totalItems) && !is_numeric($totalItems)) {
+        if (! is_int($totalItems) && ! is_numeric($totalItems)) {
             throw new \InvalidArgumentException('Expected int or numeric for totalItems');
         }
 
@@ -74,7 +73,7 @@ readonly class PaginatedResponse
 
         return new self(
             items: $items,
-            totalItems: is_int($totalItems) ? $totalItems : (int)$totalItems,
+            totalItems: is_int($totalItems) ? $totalItems : (int) $totalItems,
             currentPage: $currentPage !== null && is_int($currentPage) ? $currentPage : null,
             perPage: $perPage !== null && is_int($perPage) ? $perPage : null,
         );

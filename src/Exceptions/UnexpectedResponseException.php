@@ -2,6 +2,4 @@
 
 namespace JakubOrava\EhubClient\Exceptions;
 
-class UnexpectedResponseException extends EhubClientException
-{
-}
+class UnexpectedResponseException extends EhubClientException {}

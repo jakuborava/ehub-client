@@ -355,7 +355,7 @@ describe('getCollection', function () {
         $result = TestArrayHelperClass::testGetCollection(
             $data,
             'users',
-            fn(array $user) => $user['name']
+            fn (array $user) => $user['name']
         );
 
         expect($result)->toBeInstanceOf(Collection::class)
@@ -370,7 +370,7 @@ describe('getCollection', function () {
         $result = TestArrayHelperClass::testGetCollection(
             $data,
             'users',
-            fn(array $user) => $user
+            fn (array $user) => $user
         );
 
         expect($result)->toBeInstanceOf(Collection::class)
@@ -383,7 +383,7 @@ describe('getCollection', function () {
         TestArrayHelperClass::testGetCollection(
             $data,
             'users',
-            fn(array $user) => $user
+            fn (array $user) => $user
         );
     })->throws(InvalidArgumentException::class, 'Expected array for collection item');
 
@@ -397,7 +397,7 @@ describe('getCollection', function () {
         $result = TestArrayHelperClass::testGetCollection(
             $data,
             'numbers',
-            fn(array $item) => $item['value'] * 2
+            fn (array $item) => $item['value'] * 2
         );
 
         expect($result->toArray())->toBe([10, 20, 30]);
@@ -412,7 +412,7 @@ describe('getCollection', function () {
         $result = TestArrayHelperClass::testGetCollection(
             $data,
             'items',
-            fn(array $item) => [
+            fn (array $item) => [
                 'id' => $item['id'],
                 'nested' => $item['data']['nested'],
             ]

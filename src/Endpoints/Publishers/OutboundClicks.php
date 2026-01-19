@@ -15,8 +15,7 @@ class OutboundClicks
 {
     public function __construct(
         private readonly BaseEhubClient $client
-    ) {
-    }
+    ) {}
 
     /**
      * @return PaginatedResponse<OutboundClickDTO>
@@ -38,7 +37,7 @@ class OutboundClicks
             response: $response,
             queryParams: $queryParams,
             itemsKey: 'outboundClicks',
-            mapper: fn(array $click): OutboundClickDTO => OutboundClickDTO::fromArray($click)
+            mapper: fn (array $click): OutboundClickDTO => OutboundClickDTO::fromArray($click)
         );
     }
 }

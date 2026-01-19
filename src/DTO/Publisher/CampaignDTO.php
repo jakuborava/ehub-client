@@ -10,9 +10,9 @@ readonly class CampaignDTO
     use ArrayHelpers;
 
     /**
-     * @param Collection<int, CampaignCategoryDTO> $categories
-     * @param Collection<int, CommissionGroupDTO> $commissionGroups
-     * @param Collection<int, CampaignRestrictionDTO> $restrictions
+     * @param  Collection<int, CampaignCategoryDTO>  $categories
+     * @param  Collection<int, CommissionGroupDTO>  $commissionGroups
+     * @param  Collection<int, CampaignRestrictionDTO>  $restrictions
      */
     public function __construct(
         public string $id,
@@ -32,11 +32,10 @@ readonly class CampaignDTO
         public ?bool $domainTracking,
         public ?bool $hasFeed,
         public ?string $defaultLink,
-    ) {
-    }
+    ) {}
 
     /**
-     * @param array<string, mixed> $data
+     * @param  array<string, mixed>  $data
      */
     public static function fromArray(array $data): self
     {
@@ -44,21 +43,21 @@ readonly class CampaignDTO
         $categories = self::getCollection(
             $data,
             'categories',
-            fn(array $category): CampaignCategoryDTO => CampaignCategoryDTO::fromArray($category)
+            fn (array $category): CampaignCategoryDTO => CampaignCategoryDTO::fromArray($category)
         );
 
         /** @var Collection<int, CommissionGroupDTO> $commissionGroups */
         $commissionGroups = self::getCollection(
             $data,
             'commissionGroups',
-            fn(array $group): CommissionGroupDTO => CommissionGroupDTO::fromArray($group)
+            fn (array $group): CommissionGroupDTO => CommissionGroupDTO::fromArray($group)
         );
 
         /** @var Collection<int, CampaignRestrictionDTO> $restrictions */
         $restrictions = self::getCollection(
             $data,
             'restrictions',
-            fn(array $restriction): CampaignRestrictionDTO => CampaignRestrictionDTO::fromArray($restriction)
+            fn (array $restriction): CampaignRestrictionDTO => CampaignRestrictionDTO::fromArray($restriction)
         );
 
         return new self(

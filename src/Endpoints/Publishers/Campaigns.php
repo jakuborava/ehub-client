@@ -15,8 +15,7 @@ class Campaigns
 {
     public function __construct(
         private readonly BaseEhubClient $client
-    ) {
-    }
+    ) {}
 
     /**
      * @return PaginatedResponse<CampaignDTO>
@@ -38,7 +37,7 @@ class Campaigns
             response: $response,
             queryParams: $queryParams,
             itemsKey: 'campaigns',
-            mapper: fn(array $campaign): CampaignDTO => CampaignDTO::fromArray($campaign)
+            mapper: fn (array $campaign): CampaignDTO => CampaignDTO::fromArray($campaign)
         );
     }
 }

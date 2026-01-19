@@ -15,8 +15,7 @@ class Transactions
 {
     public function __construct(
         private readonly BaseEhubClient $client
-    ) {
-    }
+    ) {}
 
     /**
      * @return PaginatedResponse<PublisherTransactionDTO>
@@ -38,7 +37,7 @@ class Transactions
             response: $response,
             queryParams: $queryParams,
             itemsKey: 'transactions',
-            mapper: fn(array $transaction): PublisherTransactionDTO => PublisherTransactionDTO::fromArray($transaction)
+            mapper: fn (array $transaction): PublisherTransactionDTO => PublisherTransactionDTO::fromArray($transaction)
         );
     }
 

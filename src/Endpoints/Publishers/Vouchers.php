@@ -15,8 +15,7 @@ class Vouchers
 {
     public function __construct(
         private readonly BaseEhubClient $client
-    ) {
-    }
+    ) {}
 
     /**
      * @return PaginatedResponse<VoucherDTO>
@@ -38,7 +37,7 @@ class Vouchers
             response: $response,
             queryParams: $queryParams,
             itemsKey: 'vouchers',
-            mapper: fn(array $voucher): VoucherDTO => VoucherDTO::fromArray($voucher)
+            mapper: fn (array $voucher): VoucherDTO => VoucherDTO::fromArray($voucher)
         );
     }
 }

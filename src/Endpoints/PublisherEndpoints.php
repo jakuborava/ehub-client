@@ -13,8 +13,7 @@ class PublisherEndpoints
 {
     public function __construct(
         private readonly BaseEhubClient $client
-    ) {
-    }
+    ) {}
 
     public function campaigns(): Campaigns
     {

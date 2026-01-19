@@ -10,17 +10,16 @@ readonly class CommissionGroupDTO
     use ArrayHelpers;
 
     /**
-     * @param Collection<int, CommissionDTO> $commissions
+     * @param  Collection<int, CommissionDTO>  $commissions
      */
     public function __construct(
         public string $name,
         public ?string $status,
         public Collection $commissions,
-    ) {
-    }
+    ) {}
 
     /**
-     * @param array<string, mixed> $data
+     * @param  array<string, mixed>  $data
      */
     public static function fromArray(array $data): self
     {
@@ -28,7 +27,7 @@ readonly class CommissionGroupDTO
         $commissions = self::getCollection(
             $data,
             'commissions',
-            fn(array $commission): CommissionDTO => CommissionDTO::fromArray($commission)
+            fn (array $commission): CommissionDTO => CommissionDTO::fromArray($commission)
         );
 
         return new self(

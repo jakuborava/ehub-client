@@ -11,11 +11,10 @@ readonly class CampaignCategoryDTO
     public function __construct(
         public int $code,
         public string $name,
-    ) {
-    }
+    ) {}
 
     /**
-     * @param array<string, mixed> $data
+     * @param  array<string, mixed>  $data
      */
     public static function fromArray(array $data): self
     {
