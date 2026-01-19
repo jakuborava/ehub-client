@@ -2,6 +2,7 @@
 
 namespace JakubOrava\EhubClient\Endpoints\Publishers;
 
+use Illuminate\Support\Collection;
 use JakubOrava\EhubClient\BaseEhubClient;
 use JakubOrava\EhubClient\DTO\PaginatedResponse;
 use JakubOrava\EhubClient\DTO\Publisher\VoucherDTO;
@@ -32,14 +33,28 @@ class Vouchers
 
         $response = $this->client->get($userId, 'vouchers', $queryParams);
 
-        $vouchers = collect($response['vouchers'] ?? [])
-            ->map(fn (array $voucher): VoucherDTO => VoucherDTO::fromArray($voucher));
+        /** @var array<mixed> $vouchersData */
+        $vouchersData = $response['vouchers'] ?? [];
+        /** @var Collection<int, VoucherDTO> $vouchers */
+        $vouchers = (new Collection($vouchersData))
+            ->map(function (mixed $voucher): VoucherDTO {
+                if (!is_array($voucher)) {
+                    throw new UnexpectedResponseException('Expected array for voucher item');
+                }
+                /** @var array<string, mixed> $voucher */
+                return VoucherDTO::fromArray($voucher);
+            });
+
+        $currentPage = $queryParams['page'] ?? null;
+        $perPage = $queryParams['perPage'] ?? null;
+        $totalItems = $response['totalItems'] ?? 0;
+        assert(is_int($totalItems) || is_string($totalItems) || is_float($totalItems));
 
         return new PaginatedResponse(
             items: $vouchers,
-            totalItems: (int) ($response['totalItems'] ?? 0),
-            currentPage: $queryParams['page'] ?? null,
-            perPage: $queryParams['perPage'] ?? null,
+            totalItems: is_int($totalItems) ? $totalItems : (int) $totalItems,
+            currentPage: $currentPage !== null && is_int($currentPage) ? $currentPage : null,
+            perPage: $perPage !== null && is_int($perPage) ? $perPage : null,
         );
     }
 }

@@ -3,9 +3,11 @@
 namespace JakubOrava\EhubClient\DTO\Publisher;
 
 use Illuminate\Support\Collection;
+use JakubOrava\EhubClient\DTO\ArrayHelpers;
 
 readonly class CampaignDTO
 {
+    use ArrayHelpers;
     /**
      * @param Collection<int, CampaignCategoryDTO> $categories
      * @param Collection<int, CommissionGroupDTO> $commissionGroups
@@ -37,33 +39,57 @@ readonly class CampaignDTO
      */
     public static function fromArray(array $data): self
     {
-        $categories = collect($data['categories'] ?? [])
-            ->map(fn (array $category): CampaignCategoryDTO => CampaignCategoryDTO::fromArray($category));
+        $categoriesData = self::getArray($data, 'categories');
+        /** @var Collection<int, CampaignCategoryDTO> $categories */
+        $categories = (new Collection($categoriesData))
+            ->map(function (mixed $category): CampaignCategoryDTO {
+                if (!is_array($category)) {
+                    throw new \InvalidArgumentException('Expected array for category item');
+                }
+                /** @var array<string, mixed> $category */
+                return CampaignCategoryDTO::fromArray($category);
+            });
 
-        $commissionGroups = collect($data['commissionGroups'] ?? [])
-            ->map(fn (array $group): CommissionGroupDTO => CommissionGroupDTO::fromArray($group));
+        $commissionGroupsData = self::getArray($data, 'commissionGroups');
+        /** @var Collection<int, CommissionGroupDTO> $commissionGroups */
+        $commissionGroups = (new Collection($commissionGroupsData))
+            ->map(function (mixed $group): CommissionGroupDTO {
+                if (!is_array($group)) {
+                    throw new \InvalidArgumentException('Expected array for commission group item');
+                }
+                /** @var array<string, mixed> $group */
+                return CommissionGroupDTO::fromArray($group);
+            });
 
-        $restrictions = collect($data['restrictions'] ?? [])
-            ->map(fn (array $restriction): CampaignRestrictionDTO => CampaignRestrictionDTO::fromArray($restriction));
+        $restrictionsData = self::getArray($data, 'restrictions');
+        /** @var Collection<int, CampaignRestrictionDTO> $restrictions */
+        $restrictions = (new Collection($restrictionsData))
+            ->map(function (mixed $restriction): CampaignRestrictionDTO {
+                if (!is_array($restriction)) {
+                    throw new \InvalidArgumentException('Expected array for restriction item');
+                }
+                /** @var array<string, mixed> $restriction */
+                return CampaignRestrictionDTO::fromArray($restriction);
+            });
 
         return new self(
-            id: (string) $data['id'],
-            name: (string) $data['name'],
-            logoUrl: isset($data['logoUrl']) ? (string) $data['logoUrl'] : null,
-            web: isset($data['web']) ? (string) $data['web'] : null,
-            country: isset($data['country']) ? (string) $data['country'] : null,
+            id: self::getString($data, 'id'),
+            name: self::getString($data, 'name'),
+            logoUrl: self::getStringOrNull($data, 'logoUrl'),
+            web: self::getStringOrNull($data, 'web'),
+            country: self::getStringOrNull($data, 'country'),
             categories: $categories,
-            description: isset($data['description']) ? (string) $data['description'] : null,
-            commissionDescription: isset($data['commissionDescription']) ? (string) $data['commissionDescription'] : null,
+            description: self::getStringOrNull($data, 'description'),
+            commissionDescription: self::getStringOrNull($data, 'commissionDescription'),
             commissionGroups: $commissionGroups,
             restrictions: $restrictions,
-            averageAmount: isset($data['averageAmount']) ? (float) $data['averageAmount'] : null,
-            cookieLifetime: isset($data['cookieLifetime']) ? (int) $data['cookieLifetime'] : null,
-            maxApprovalInterval: isset($data['maxApprovalInterval']) ? (int) $data['maxApprovalInterval'] : null,
-            tracking: isset($data['tracking']) ? (string) $data['tracking'] : null,
-            domainTracking: isset($data['domainTracking']) ? (bool) $data['domainTracking'] : null,
-            hasFeed: isset($data['hasFeed']) ? (bool) $data['hasFeed'] : null,
-            defaultLink: isset($data['defaultLink']) ? (string) $data['defaultLink'] : null,
+            averageAmount: self::getFloatOrNull($data, 'averageAmount'),
+            cookieLifetime: self::getIntOrNull($data, 'cookieLifetime'),
+            maxApprovalInterval: self::getIntOrNull($data, 'maxApprovalInterval'),
+            tracking: self::getStringOrNull($data, 'tracking'),
+            domainTracking: self::getBoolOrNull($data, 'domainTracking'),
+            hasFeed: self::getBoolOrNull($data, 'hasFeed'),
+            defaultLink: self::getStringOrNull($data, 'defaultLink'),
         );
     }
 }

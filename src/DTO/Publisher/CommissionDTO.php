@@ -2,8 +2,11 @@
 
 namespace JakubOrava\EhubClient\DTO\Publisher;
 
+use JakubOrava\EhubClient\DTO\ArrayHelpers;
+
 readonly class CommissionDTO
 {
+    use ArrayHelpers;
     public function __construct(
         public string $commissionType,
         public ?string $name,
@@ -18,10 +21,10 @@ readonly class CommissionDTO
     public static function fromArray(array $data): self
     {
         return new self(
-            commissionType: (string) $data['commissionType'],
-            name: isset($data['name']) ? (string) $data['name'] : null,
-            valueType: (string) $data['valueType'],
-            value: (float) $data['value'],
+            commissionType: self::getString($data, 'commissionType'),
+            name: self::getStringOrNull($data, 'name'),
+            valueType: self::getString($data, 'valueType'),
+            value: self::getFloat($data, 'value'),
         );
     }
 }

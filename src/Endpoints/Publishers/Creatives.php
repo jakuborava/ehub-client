@@ -2,6 +2,7 @@
 
 namespace JakubOrava\EhubClient\Endpoints\Publishers;
 
+use Illuminate\Support\Collection;
 use JakubOrava\EhubClient\BaseEhubClient;
 use JakubOrava\EhubClient\DTO\PaginatedResponse;
 use JakubOrava\EhubClient\DTO\Publisher\CreativeDTO;
@@ -32,14 +33,28 @@ class Creatives
 
         $response = $this->client->get($userId, 'creatives', $queryParams);
 
-        $creatives = collect($response['creatives'] ?? [])
-            ->map(fn (array $creative): CreativeDTO => CreativeDTO::fromArray($creative));
+        /** @var array<mixed> $creativesData */
+        $creativesData = $response['creatives'] ?? [];
+        /** @var Collection<int, CreativeDTO> $creatives */
+        $creatives = (new Collection($creativesData))
+            ->map(function (mixed $creative): CreativeDTO {
+                if (!is_array($creative)) {
+                    throw new UnexpectedResponseException('Expected array for creative item');
+                }
+                /** @var array<string, mixed> $creative */
+                return CreativeDTO::fromArray($creative);
+            });
+
+        $currentPage = $queryParams['page'] ?? null;
+        $perPage = $queryParams['perPage'] ?? null;
+        $totalItems = $response['totalItems'] ?? 0;
+        assert(is_int($totalItems) || is_string($totalItems) || is_float($totalItems));
 
         return new PaginatedResponse(
             items: $creatives,
-            totalItems: (int) ($response['totalItems'] ?? 0),
-            currentPage: $queryParams['page'] ?? null,
-            perPage: $queryParams['perPage'] ?? null,
+            totalItems: is_int($totalItems) ? $totalItems : (int) $totalItems,
+            currentPage: $currentPage !== null && is_int($currentPage) ? $currentPage : null,
+            perPage: $perPage !== null && is_int($perPage) ? $perPage : null,
         );
     }
 }

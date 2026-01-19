@@ -3,9 +3,11 @@
 namespace JakubOrava\EhubClient\DTO\Publisher;
 
 use Carbon\Carbon;
+use JakubOrava\EhubClient\DTO\ArrayHelpers;
 
 readonly class VoucherDTO
 {
+    use ArrayHelpers;
     public function __construct(
         public int $id,
         public string $campaignId,
@@ -27,17 +29,17 @@ readonly class VoucherDTO
     public static function fromArray(array $data): self
     {
         return new self(
-            id: (int) $data['id'],
-            campaignId: (string) $data['campaignId'],
-            campaignName: (string) $data['campaignName'],
-            code: (string) $data['code'],
-            type: (string) $data['type'],
-            rules: (string) $data['rules'],
-            url: (string) $data['url'],
-            destinationUrl: (string) $data['destinationUrl'],
-            validFrom: Carbon::parse($data['validFrom']),
-            validTill: Carbon::parse($data['validTill']),
-            isValid: isset($data['isValid']) ? (bool) $data['isValid'] : null,
+            id: self::getInt($data, 'id'),
+            campaignId: self::getString($data, 'campaignId'),
+            campaignName: self::getString($data, 'campaignName'),
+            code: self::getString($data, 'code'),
+            type: self::getString($data, 'type'),
+            rules: self::getString($data, 'rules'),
+            url: self::getString($data, 'url'),
+            destinationUrl: self::getString($data, 'destinationUrl'),
+            validFrom: Carbon::parse(self::getString($data, 'validFrom')),
+            validTill: Carbon::parse(self::getString($data, 'validTill')),
+            isValid: self::getBoolOrNull($data, 'isValid'),
         );
     }
 }

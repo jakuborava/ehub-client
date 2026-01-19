@@ -2,8 +2,11 @@
 
 namespace JakubOrava\EhubClient\DTO\Publisher;
 
+use JakubOrava\EhubClient\DTO\ArrayHelpers;
+
 readonly class CampaignRestrictionDTO
 {
+    use ArrayHelpers;
     public function __construct(
         public string $name,
         public string $description,
@@ -17,9 +20,9 @@ readonly class CampaignRestrictionDTO
     public static function fromArray(array $data): self
     {
         return new self(
-            name: (string) $data['name'],
-            description: (string) $data['description'],
-            note: isset($data['note']) ? (string) $data['note'] : null,
+            name: self::getString($data, 'name'),
+            description: self::getString($data, 'description'),
+            note: self::getStringOrNull($data, 'note'),
         );
     }
 }

@@ -3,9 +3,11 @@
 namespace JakubOrava\EhubClient\DTO\Publisher;
 
 use Carbon\Carbon;
+use JakubOrava\EhubClient\DTO\ArrayHelpers;
 
 readonly class PublisherTransactionDTO
 {
+    use ArrayHelpers;
     public function __construct(
         public string $id,
         public string $uuid,
@@ -42,32 +44,32 @@ readonly class PublisherTransactionDTO
     public static function fromArray(array $data): self
     {
         return new self(
-            id: (string) $data['id'],
-            uuid: (string) $data['uuid'],
-            dateInserted: Carbon::parse($data['dateInserted']),
-            campaignId: (string) $data['campaignId'],
-            creativeId: (string) $data['creativeId'],
-            type: (string) $data['type'],
-            code: isset($data['code']) ? (string) $data['code'] : null,
-            commission: (float) $data['commission'],
-            amount: (float) $data['amount'],
-            ip: isset($data['ip']) ? (string) $data['ip'] : null,
-            clickCount: isset($data['clickCount']) ? (int) $data['clickCount'] : null,
-            firstClickDateTime: isset($data['firstClickDateTime']) ? Carbon::parse($data['firstClickDateTime']) : null,
-            firstClickIp: isset($data['firstClickIp']) ? (string) $data['firstClickIp'] : null,
-            firstClickData1: isset($data['firstClickData1']) ? (string) $data['firstClickData1'] : null,
-            firstClickData2: isset($data['firstClickData2']) ? (string) $data['firstClickData2'] : null,
-            lastClickDateTime: isset($data['lastClickDateTime']) ? Carbon::parse($data['lastClickDateTime']) : null,
-            lastClickIp: isset($data['lastClickIp']) ? (string) $data['lastClickIp'] : null,
-            lastClickData1: isset($data['lastClickData1']) ? (string) $data['lastClickData1'] : null,
-            lastClickData2: isset($data['lastClickData2']) ? (string) $data['lastClickData2'] : null,
-            lastClickReferrerUrl: isset($data['lastClickReferrerUrl']) ? (string) $data['lastClickReferrerUrl'] : null,
-            orderId: isset($data['orderId']) ? (string) $data['orderId'] : null,
-            productId: isset($data['productId']) ? (string) $data['productId'] : null,
-            newCustomer: isset($data['newCustomer']) ? (bool) $data['newCustomer'] : null,
-            resolutionDateTime: isset($data['resolutionDateTime']) ? Carbon::parse($data['resolutionDateTime']) : null,
-            status: (string) $data['status'],
-            payoutStatus: (string) $data['payoutStatus'],
+            id: self::getString($data, 'id'),
+            uuid: self::getString($data, 'uuid'),
+            dateInserted: Carbon::parse(self::getString($data, 'dateInserted')),
+            campaignId: self::getString($data, 'campaignId'),
+            creativeId: self::getString($data, 'creativeId'),
+            type: self::getString($data, 'type'),
+            code: self::getStringOrNull($data, 'code'),
+            commission: self::getFloat($data, 'commission'),
+            amount: self::getFloat($data, 'amount'),
+            ip: self::getStringOrNull($data, 'ip'),
+            clickCount: self::getIntOrNull($data, 'clickCount'),
+            firstClickDateTime: self::getCarbonOrNull($data, 'firstClickDateTime'),
+            firstClickIp: self::getStringOrNull($data, 'firstClickIp'),
+            firstClickData1: self::getStringOrNull($data, 'firstClickData1'),
+            firstClickData2: self::getStringOrNull($data, 'firstClickData2'),
+            lastClickDateTime: self::getCarbonOrNull($data, 'lastClickDateTime'),
+            lastClickIp: self::getStringOrNull($data, 'lastClickIp'),
+            lastClickData1: self::getStringOrNull($data, 'lastClickData1'),
+            lastClickData2: self::getStringOrNull($data, 'lastClickData2'),
+            lastClickReferrerUrl: self::getStringOrNull($data, 'lastClickReferrerUrl'),
+            orderId: self::getStringOrNull($data, 'orderId'),
+            productId: self::getStringOrNull($data, 'productId'),
+            newCustomer: self::getBoolOrNull($data, 'newCustomer'),
+            resolutionDateTime: self::getCarbonOrNull($data, 'resolutionDateTime'),
+            status: self::getString($data, 'status'),
+            payoutStatus: self::getString($data, 'payoutStatus'),
         );
     }
 }

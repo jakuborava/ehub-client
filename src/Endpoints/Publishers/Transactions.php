@@ -2,6 +2,7 @@
 
 namespace JakubOrava\EhubClient\Endpoints\Publishers;
 
+use Illuminate\Support\Collection;
 use JakubOrava\EhubClient\BaseEhubClient;
 use JakubOrava\EhubClient\DTO\PaginatedResponse;
 use JakubOrava\EhubClient\DTO\Publisher\PublisherTransactionDTO;
@@ -32,14 +33,28 @@ class Transactions
 
         $response = $this->client->get($userId, 'transactions', $queryParams);
 
-        $transactions = collect($response['transactions'] ?? [])
-            ->map(fn (array $transaction): PublisherTransactionDTO => PublisherTransactionDTO::fromArray($transaction));
+        /** @var array<mixed> $transactionsData */
+        $transactionsData = $response['transactions'] ?? [];
+        /** @var Collection<int, PublisherTransactionDTO> $transactions */
+        $transactions = (new Collection($transactionsData))
+            ->map(function (mixed $transaction): PublisherTransactionDTO {
+                if (!is_array($transaction)) {
+                    throw new UnexpectedResponseException('Expected array for transaction item');
+                }
+                /** @var array<string, mixed> $transaction */
+                return PublisherTransactionDTO::fromArray($transaction);
+            });
+
+        $currentPage = $queryParams['page'] ?? null;
+        $perPage = $queryParams['perPage'] ?? null;
+        $totalItems = $response['totalItems'] ?? 0;
+        assert(is_int($totalItems) || is_string($totalItems) || is_float($totalItems));
 
         return new PaginatedResponse(
             items: $transactions,
-            totalItems: (int) ($response['totalItems'] ?? 0),
-            currentPage: $queryParams['page'] ?? null,
-            perPage: $queryParams['perPage'] ?? null,
+            totalItems: is_int($totalItems) ? $totalItems : (int) $totalItems,
+            currentPage: $currentPage !== null && is_int($currentPage) ? $currentPage : null,
+            perPage: $perPage !== null && is_int($perPage) ? $perPage : null,
         );
     }
 
@@ -53,6 +68,7 @@ class Transactions
     {
         $response = $this->client->get($userId, "transactions/{$transactionId}", []);
 
+        /** @var array<string, mixed> $response */
         return PublisherTransactionDTO::fromArray($response);
     }
 }

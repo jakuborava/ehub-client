@@ -2,8 +2,11 @@
 
 namespace JakubOrava\EhubClient\DTO\Publisher;
 
+use JakubOrava\EhubClient\DTO\ArrayHelpers;
+
 readonly class CreativeDTO
 {
+    use ArrayHelpers;
     public function __construct(
         public string $id,
         public string $campaignId,
@@ -20,12 +23,12 @@ readonly class CreativeDTO
     public static function fromArray(array $data): self
     {
         return new self(
-            id: (string) $data['id'],
-            campaignId: (string) $data['campaignId'],
-            type: (string) $data['type'],
-            name: (string) $data['name'],
-            destinationUrl: isset($data['destinationUrl']) ? (string) $data['destinationUrl'] : null,
-            imageUrl: isset($data['imageUrl']) ? (string) $data['imageUrl'] : null,
+            id: self::getString($data, 'id'),
+            campaignId: self::getString($data, 'campaignId'),
+            type: self::getString($data, 'type'),
+            name: self::getString($data, 'name'),
+            destinationUrl: self::getStringOrNull($data, 'destinationUrl'),
+            imageUrl: self::getStringOrNull($data, 'imageUrl'),
         );
     }
 }

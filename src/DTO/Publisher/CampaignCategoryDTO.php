@@ -2,8 +2,11 @@
 
 namespace JakubOrava\EhubClient\DTO\Publisher;
 
+use JakubOrava\EhubClient\DTO\ArrayHelpers;
+
 readonly class CampaignCategoryDTO
 {
+    use ArrayHelpers;
     public function __construct(
         public int $code,
         public string $name,
@@ -16,8 +19,8 @@ readonly class CampaignCategoryDTO
     public static function fromArray(array $data): self
     {
         return new self(
-            code: (int) $data['code'],
-            name: (string) $data['name'],
+            code: self::getInt($data, 'code'),
+            name: self::getString($data, 'name'),
         );
     }
 }

@@ -18,7 +18,9 @@ class BaseEhubClient
 
     public function __construct()
     {
-        $this->apiKey = config('ehub-client.api_key', '');
+        $apiKey = config('ehub-client.api_key', '');
+        assert(is_string($apiKey));
+        $this->apiKey = $apiKey;
     }
 
     /**

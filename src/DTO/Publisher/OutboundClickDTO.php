@@ -3,9 +3,11 @@
 namespace JakubOrava\EhubClient\DTO\Publisher;
 
 use Carbon\Carbon;
+use JakubOrava\EhubClient\DTO\ArrayHelpers;
 
 readonly class OutboundClickDTO
 {
+    use ArrayHelpers;
     public function __construct(
         public string $id,
         public Carbon $dateTime,
@@ -26,16 +28,16 @@ readonly class OutboundClickDTO
     public static function fromArray(array $data): self
     {
         return new self(
-            id: (string) $data['id'],
-            dateTime: Carbon::parse($data['dateTime']),
-            campaignId: (string) $data['campaignId'],
-            clickDateTime: Carbon::parse($data['clickDateTime']),
-            clickReferrerUrl: isset($data['clickReferrerUrl']) ? (string) $data['clickReferrerUrl'] : null,
-            clickData1: isset($data['clickData1']) ? (string) $data['clickData1'] : null,
-            clickData2: isset($data['clickData2']) ? (string) $data['clickData2'] : null,
-            linkId: isset($data['linkId']) ? (string) $data['linkId'] : null,
-            commission: isset($data['commission']) ? (float) $data['commission'] : null,
-            processed: isset($data['processed']) ? (bool) $data['processed'] : null,
+            id: self::getString($data, 'id'),
+            dateTime: Carbon::parse(self::getString($data, 'dateTime')),
+            campaignId: self::getString($data, 'campaignId'),
+            clickDateTime: Carbon::parse(self::getString($data, 'clickDateTime')),
+            clickReferrerUrl: self::getStringOrNull($data, 'clickReferrerUrl'),
+            clickData1: self::getStringOrNull($data, 'clickData1'),
+            clickData2: self::getStringOrNull($data, 'clickData2'),
+            linkId: self::getStringOrNull($data, 'linkId'),
+            commission: self::getFloatOrNull($data, 'commission'),
+            processed: self::getBoolOrNull($data, 'processed'),
         );
     }
 }

@@ -2,6 +2,7 @@
 
 namespace JakubOrava\EhubClient\Endpoints\Publishers;
 
+use Illuminate\Support\Collection;
 use JakubOrava\EhubClient\BaseEhubClient;
 use JakubOrava\EhubClient\DTO\PaginatedResponse;
 use JakubOrava\EhubClient\DTO\Publisher\CampaignDTO;
@@ -32,14 +33,28 @@ class Campaigns
 
         $response = $this->client->get($userId, 'campaigns', $queryParams);
 
-        $campaigns = collect($response['campaigns'] ?? [])
-            ->map(fn (array $campaign): CampaignDTO => CampaignDTO::fromArray($campaign));
+        /** @var array<mixed> $campaignsData */
+        $campaignsData = $response['campaigns'] ?? [];
+        /** @var Collection<int, CampaignDTO> $campaigns */
+        $campaigns = (new Collection($campaignsData))
+            ->map(function (mixed $campaign): CampaignDTO {
+                if (!is_array($campaign)) {
+                    throw new UnexpectedResponseException('Expected array for campaign item');
+                }
+                /** @var array<string, mixed> $campaign */
+                return CampaignDTO::fromArray($campaign);
+            });
+
+        $currentPage = $queryParams['page'] ?? null;
+        $perPage = $queryParams['perPage'] ?? null;
+        $totalItems = $response['totalItems'] ?? 0;
+        assert(is_int($totalItems) || is_string($totalItems) || is_float($totalItems));
 
         return new PaginatedResponse(
             items: $campaigns,
-            totalItems: (int) ($response['totalItems'] ?? 0),
-            currentPage: $queryParams['page'] ?? null,
-            perPage: $queryParams['perPage'] ?? null,
+            totalItems: is_int($totalItems) ? $totalItems : (int) $totalItems,
+            currentPage: $currentPage !== null && is_int($currentPage) ? $currentPage : null,
+            perPage: $perPage !== null && is_int($perPage) ? $perPage : null,
         );
     }
 }
