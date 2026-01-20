@@ -16,10 +16,12 @@ class BaseEhubClient
 
     private string $apiKey;
 
-    public function __construct()
+    public function __construct(?string $apiKey = null)
     {
-        $apiKey = config('ehub-client.api_key', '');
-        assert(is_string($apiKey));
+        if ($apiKey === null) {
+            $apiKey = config('ehub-client.api_key', '');
+            assert(is_string($apiKey));
+        }
         $this->apiKey = $apiKey;
     }
 

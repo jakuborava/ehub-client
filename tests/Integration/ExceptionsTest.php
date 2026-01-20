@@ -8,6 +8,7 @@ use JakubOrava\EhubClient\Exceptions\UnexpectedResponseException;
 use JakubOrava\EhubClient\Exceptions\ValidationException;
 
 beforeEach(function () {
+    config(['ehub-client.api_key' => 'test-api-key']);
     $this->client = new EhubClient;
     $this->publisherId = 'test-publisher-id';
 });

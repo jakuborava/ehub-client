@@ -5,6 +5,7 @@ use JakubOrava\EhubClient\EhubClient;
 use JakubOrava\EhubClient\Requests\OutboundClicksListRequest;
 
 beforeEach(function () {
+    config(['ehub-client.api_key' => 'test-api-key']);
     $this->client = new EhubClient;
     $this->publisherId = 'test-publisher-id';
 });

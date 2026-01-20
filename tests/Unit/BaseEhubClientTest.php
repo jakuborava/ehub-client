@@ -13,6 +13,53 @@ beforeEach(function () {
     $this->userId = 'test-user-id';
 });
 
+it('accepts API key via constructor parameter', function () {
+    Http::fake([
+        '*' => Http::response(['data' => 'test']),
+    ]);
+
+    $client = new BaseEhubClient('custom-api-key');
+    $client->get('test-user-id', 'vouchers');
+
+    Http::assertSent(function ($request) {
+        $query = $request->data();
+
+        return isset($query['apiKey']) && $query['apiKey'] === 'custom-api-key';
+    });
+});
+
+it('falls back to config when no API key is provided via constructor', function () {
+    Http::fake([
+        '*' => Http::response(['data' => 'test']),
+    ]);
+
+    config(['ehub-client.api_key' => 'config-api-key']);
+    $client = new BaseEhubClient;
+    $client->get('test-user-id', 'vouchers');
+
+    Http::assertSent(function ($request) {
+        $query = $request->data();
+
+        return isset($query['apiKey']) && $query['apiKey'] === 'config-api-key';
+    });
+});
+
+it('prioritizes constructor API key over config', function () {
+    Http::fake([
+        '*' => Http::response(['data' => 'test']),
+    ]);
+
+    config(['ehub-client.api_key' => 'config-api-key']);
+    $client = new BaseEhubClient('constructor-api-key');
+    $client->get('test-user-id', 'vouchers');
+
+    Http::assertSent(function ($request) {
+        $query = $request->data();
+
+        return isset($query['apiKey']) && $query['apiKey'] === 'constructor-api-key';
+    });
+});
+
 it('builds correct URL with userId and path', function () {
     Http::fake([
         'https://api.ehub.cz/v3/publishers/test-user-id/vouchers*' => Http::response(['data' => 'test']),

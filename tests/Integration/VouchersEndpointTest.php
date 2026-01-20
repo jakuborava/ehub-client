@@ -6,6 +6,7 @@ use JakubOrava\EhubClient\Exceptions\AuthenticationException;
 use JakubOrava\EhubClient\Requests\VouchersListRequest;
 
 beforeEach(function () {
+    config(['ehub-client.api_key' => 'test-api-key']);
     $this->client = new EhubClient;
     $this->publisherId = 'test-publisher-id';
 });
@@ -121,4 +122,24 @@ it('handles pagination metadata correctly', function () {
         ->and($response->perPage)->toBe(50)
         ->and($response->getTotalPages())->toBe(3)
         ->and($response->hasMorePages())->toBeTrue();
+});
+
+it('accepts API key via constructor parameter', function () {
+    Http::fake([
+        'api.ehub.cz/v3/publishers/*/vouchers*' => Http::response([
+            'vouchers' => [],
+            'totalItems' => 0,
+        ], 200),
+    ]);
+
+    $client = new EhubClient('custom-api-key');
+    $client->publishers()
+        ->vouchers()
+        ->list($this->publisherId);
+
+    Http::assertSent(function ($request) {
+        $url = $request->url();
+
+        return str_contains($url, 'apiKey=custom-api-key');
+    });
 });

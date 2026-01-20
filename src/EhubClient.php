@@ -8,9 +8,9 @@ class EhubClient
 {
     private BaseEhubClient $client;
 
-    public function __construct()
+    public function __construct(?string $apiKey = null)
     {
-        $this->client = new BaseEhubClient;
+        $this->client = new BaseEhubClient($apiKey);
     }
 
     public function publishers(): PublisherEndpoints

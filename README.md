@@ -27,11 +27,40 @@ You can install the package via composer:
 composer require jakuborava/ehub-client
 ```
 
+## Configuration
+
+You can configure the API key in two ways:
+
+### 1. Environment Variable (Recommended)
+
 Add your eHub API key to your `.env` file:
 
 ```env
 EHUB_API_KEY=your-api-key-here
 ```
+
+Then use the client without any parameters:
+
+```php
+use JakubOrava\EhubClient\EhubClient;
+
+$client = new EhubClient();
+```
+
+### 2. Programmatically
+
+Pass the API key directly to the client constructor:
+
+```php
+use JakubOrava\EhubClient\EhubClient;
+
+$client = new EhubClient('your-api-key-here');
+```
+
+This is useful when you need to:
+- Use different API keys for different requests
+- Load the API key from a custom source
+- Switch between multiple API keys dynamically
 
 ## Usage
 
@@ -42,7 +71,12 @@ The client uses a fluent, hierarchical API design. All methods require a `userId
 ```php
 use JakubOrava\EhubClient\EhubClient;
 
+// Initialize with API key from config/env
 $client = new EhubClient();
+
+// Or initialize with API key parameter
+$client = new EhubClient('your-api-key-here');
+
 $publisherId = 'your-publisher-id';
 
 // Get vouchers

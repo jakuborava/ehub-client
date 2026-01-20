@@ -6,6 +6,7 @@ use JakubOrava\EhubClient\Exceptions\ApiErrorException;
 use JakubOrava\EhubClient\Requests\CampaignsListRequest;
 
 beforeEach(function () {
+    config(['ehub-client.api_key' => 'test-api-key']);
     $this->client = new EhubClient;
     $this->publisherId = 'test-publisher-id';
 });
