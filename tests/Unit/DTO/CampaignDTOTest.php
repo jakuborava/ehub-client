@@ -10,8 +10,8 @@ it('creates CampaignDTO from array with nested collections', function () {
         'web' => 'https://example.com',
         'country' => 'CZ',
         'categories' => [
-            ['code' => 4, 'name' => 'Finance'],
-            ['code' => 6, 'name' => 'E-shops'],
+            ['id' => 4, 'name' => 'Finance'],
+            ['id' => 6, 'name' => 'E-shops'],
         ],
         'description' => 'Test description',
         'commissionDescription' => 'Without VAT',
@@ -53,7 +53,7 @@ it('creates CampaignDTO from array with nested collections', function () {
         ->and($dto->web)->toBe('https://example.com')
         ->and($dto->country)->toBe('CZ')
         ->and($dto->categories)->toHaveCount(2)
-        ->and($dto->categories->first()->code)->toBe(4)
+        ->and($dto->categories->first()->id)->toBe(4)
         ->and($dto->categories->first()->name)->toBe('Finance')
         ->and($dto->commissionGroups)->toHaveCount(1)
         ->and($dto->commissionGroups->first()->name)->toBe('Default')

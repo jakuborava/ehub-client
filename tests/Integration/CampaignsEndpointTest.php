@@ -22,7 +22,7 @@ it('fetches campaigns list successfully', function () {
                     'web' => 'https://example.com',
                     'country' => 'CZ',
                     'categories' => [
-                        ['code' => 4, 'name' => 'Finance'],
+                        ['id' => 4, 'name' => 'Finance'],
                     ],
                     'description' => 'Test description',
                     'commissionDescription' => 'Without VAT',
@@ -63,7 +63,7 @@ it('fetches campaigns list successfully', function () {
         ->and($response->items->first()->id)->toBe('12acea8d')
         ->and($response->items->first()->name)->toBe('Test Campaign')
         ->and($response->items->first()->categories)->toHaveCount(1)
-        ->and($response->items->first()->categories->first()->code)->toBe(4)
+        ->and($response->items->first()->categories->first()->id)->toBe(4)
         ->and($response->items->first()->commissionGroups)->toHaveCount(1)
         ->and($response->items->first()->commissionGroups->first()->commissions)->toHaveCount(1)
         ->and($response->items->first()->domainTracking)->toBeTrue()
