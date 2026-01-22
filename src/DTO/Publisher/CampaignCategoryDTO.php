@@ -9,7 +9,7 @@ readonly class CampaignCategoryDTO
     use ArrayHelpers;
 
     public function __construct(
-        public int $code,
+        public int $id,
         public string $name,
     ) {}
 
@@ -19,7 +19,7 @@ readonly class CampaignCategoryDTO
     public static function fromArray(array $data): self
     {
         return new self(
-            code: self::getInt($data, 'code'),
+            id: self::getInt($data, 'id'),
             name: self::getString($data, 'name'),
         );
     }
